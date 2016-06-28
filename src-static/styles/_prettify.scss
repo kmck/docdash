@@ -1,0 +1,61 @@
+.prettyprint {
+    .pln {
+        color: $prettify-plaintext-color;
+    }
+
+    .str {
+        color: $prettify-string-color;
+    }
+
+    .kwd {
+        color: $prettify-keyword-color;
+    }
+
+    .com {
+        color: $prettify-comment-color;
+    }
+
+    .typ {
+        color: $prettify-type-color;
+    }
+
+    .lit {
+        color: $prettify-literal-color;
+    }
+
+    .pun {
+        color: $prettify-punctuation-color;
+    }
+
+    .opn {
+        color: $prettify-lisp-open-color;
+    }
+
+    .clo {
+        color: $prettify-lisp-close-color;
+    }
+
+    .tag {
+        color: $prettify-tag-color;
+    }
+
+    .atn {
+        color: $prettify-attribute-name-color;
+    }
+
+    .atv {
+        color: $prettify-attribute-value-color;
+    }
+
+    .dec {
+        color: $prettify-declaration-color;
+    }
+
+    .var {
+        color: $prettify-variable-color;
+    }
+
+    .fun {
+        color: $prettify-function-color;
+    }
+}

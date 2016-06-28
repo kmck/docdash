@@ -1,0 +1,78 @@
+//
+// Adds a custom underline using `background-image` instead of `text-decoration`
+//
+
+@mixin custom-underline($color, $color-active: false, $color-hover: false) {
+    @if $color-active == null {
+        $color-active: $color;
+    }
+
+    @if $color-hover == null {
+        $color-hover: $color-active;
+    }
+
+    background-image: linear-gradient(to bottom, rgba($color, 0) 50%, $color 50%);
+    text-decoration: none;
+    background-repeat: repeat-x;
+    // `background-size-x` must be greater than 1px or the underline
+    // disappears below < 100% browser zoom
+    background-size: 1em 2px;
+    background-position: 0 1.15em;
+    padding-bottom: 0.15em;
+
+    @if $color-active {
+        &:active {
+            background-image: linear-gradient(to bottom, rgba($color-active, 0) 50%, $color-active 50%);
+        }
+    }
+
+    @if $color-hover {
+        &:hover {
+            background-image: linear-gradient(to bottom, rgba($color-hover, 0) 50%, $color-hover 50%);
+        }
+    }
+}
+
+//
+// Includes basic styles targeting semantic weight, style, and size selectors.
+//
+
+@mixin semantic-base {
+    b,
+    strong {
+        font-weight: bold;
+    }
+
+    i,
+    em {
+        font-style: italic;
+    }
+
+    small {
+        font-size: smaller;
+    }
+
+    sub {
+        font-size: smaller;
+        vertical-align: sub;
+    }
+
+    sup {
+        font-size: smaller;
+        vertical-align: super;
+    }
+}
+
+//
+// Pin an element to all corners
+//
+
+@mixin fullscreen($position: fixed) {
+    position: $position;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

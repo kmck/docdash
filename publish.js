@@ -66,14 +66,9 @@ function needsSignature(doclet) {
 function getSignatureAttributes(item) {
     var attributes = [];
 
-    if (item.optional) {
-        attributes.push('opt');
-    }
-
     if (item.nullable === true) {
         attributes.push('nullable');
-    }
-    else if (item.nullable === false) {
+    } else if (item.nullable === false) {
         attributes.push('non-null');
     }
 
@@ -88,9 +83,12 @@ function updateItemName(item) {
         itemName = '&hellip;' + itemName;
     }
 
+    if (item.optional) {
+        itemName = '<span class="optional">[' + itemName + ']</span>';
+    }
+
     if (attributes && attributes.length) {
-        itemName = util.format( '%s<span class="signature-attributes">%s</span>', itemName,
-            attributes.join(', ') );
+        itemName += '<span class="signature-attributes">' + attributes.join(', ') + '</span>';
     }
 
     return itemName;
@@ -168,13 +166,13 @@ function addSignatureReturns(f) {
     }
 
     f.signature = '<span class="signature">' + (f.signature || '') + '</span>' +
-        '<span class="type-signature">' + returnTypesString + '</span>';
+        '<span class="signature-return">' + returnTypesString + '</span>';
 }
 
 function addSignatureTypes(f) {
     var types = f.type ? buildItemTypeStrings(f) : [];
 
-    f.signature = (f.signature || '') + '<span class="type-signature">' +
+    f.signature = (f.signature || '') + '<span class="signature-type">' +
         (types.length ? ' :' + types.join('|') : '') + '</span>';
 }
 
@@ -182,7 +180,7 @@ function addAttribs(f) {
     var attribs = helper.getAttribs(f);
     var attribsString = buildAttribsString(attribs);
 
-    f.attribs = util.format('<span class="type-signature">%s</span>', attribsString);
+    f.attribs = util.format('<span class="signature-type">%s</span>', attribsString);
 }
 
 function shortenPaths(files, commonPrefix) {
@@ -367,7 +365,7 @@ function linktoExternal(longName, name) {
  */
 
 function buildNav(members) {
-    var nav = '<h2><a href="index.html">Home</a></h2>';
+    var nav = '<h2 class="home-link"><a href="index.html">Home</a></h2>';
     var seen = {};
     var seenTutorials = {};
 

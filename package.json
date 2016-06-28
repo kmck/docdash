@@ -1,7 +1,7 @@
 {
-  "name": "docdash",
-  "version": "0.4.0",
-  "description": "A clean, responsive documentation template theme for JSDoc 3 inspired by lodash and minami",
+  "name": "hotdoc",
+  "version": "0.5.0",
+  "description": "A SASSier responsive documentation template theme for JSDoc 3 based on docdash",
   "main": "publish.js",
   "scripts": {
     "test": "jsdoc -c fixtures/fixtures.conf.json",
@@ -10,14 +10,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/clenemt/docdash.git"
+    "url": "https://github.com/kmck/hotdoc.git"
+  },
+  "dependencies": {
+    "autoprefixer": "^6.3.6",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "node-sass": "^3.8.0",
+    "postcss-loader": "^0.9.1",
+    "sass-loader": "^4.0.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1"
   },
   "devDependencies": {
     "jsdoc": "latest",
     "browser-sync": "latest",
     "watch-run": "latest"
   },
-  "author": "Clement Moron <clement.moron@gmail.com>",
+  "author": "Keith McKnight <keith@mcknig.ht>",
   "license": "Apache-2.0",
   "keywords": [
     "jsdoc",

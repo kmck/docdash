@@ -1,0 +1,411 @@
+// Include webfonts
+@if variable-exists(webfont-import) and $webfont-import and $webfont-import != '' {
+    @import url('#{$webfont-import}');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0 auto;
+    padding: 0 20px;
+    background-color: $background-color;
+    color: $text-color;
+    font-family: $body-font;
+    font-size: $font-size;
+    line-height: 1.6;
+
+    @if $global-antialias {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+a {
+    color: $link-color;
+
+    &:active {
+        color: $link-active-color;
+    }
+
+    &:hover {
+        color: $link-hover-color;
+    }
+}
+
+header,
+article {
+    @extend %content-text;
+}
+
+.readme h1:first-child,
+.page-title {
+    @extend %header;
+}
+
+.member,
+.method {
+    @extend %method;
+}
+
+.container-overview .subsection-title {
+    margin: 8px 0 3px;
+    font-size: 1.2rem;
+}
+
+.class-description {
+    font-size: 1.3rem;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.class-description:empty {
+    margin: 0;
+}
+
+.main-container {
+    min-width: $min-width;
+    margin-left: $menu-width;
+    padding: $content-padding;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+
+    .ancestors {
+        color: $ancestor-text-color;
+
+        a {
+            color: inherit;
+        }
+    }
+}
+
+.page-content {
+    > article {
+        margin-bottom: 2rem;
+    }
+}
+
+.variation {
+    display: none;
+}
+
+.signature-attributes {
+    font-size: 0.6rem;
+
+    &::before {
+        content: '\00a0';
+    }
+}
+
+.home-link {
+    font-size: 1.2rem;
+    font-weight: $subsubheader-font-weight;
+    color: $header-text-color;
+
+    a {
+        color: inherit;
+
+        @if $custom-underline {
+            @include custom-underline(transparent, rgba($header-text-color, 0.8), rgba($header-text-color, 0.5));
+        }
+    }
+}
+
+.nav {
+    @extend %nav;
+}
+
+footer {
+    @if $show-footer {
+        display: block;
+    } @else {
+        display: none;
+    }
+
+    margin-left: $menu-width;
+    padding: 15px;
+    color: $footer-text-color;
+    font-size: 90%;
+    font-style: italic;
+}
+
+.important {
+    font-weight: bold;
+    color: $important-text-color;
+}
+
+.yes-def {
+    text-indent: -1000px;
+}
+
+.name,
+.signature {
+    font-family: $code-font;
+}
+
+.signature {
+    color: $method-signature-text-color;
+}
+
+.signature-type {
+    color: $method-signature-type-text-color;
+}
+
+.signature-return {
+    color: $method-signature-return-text-color;
+}
+
+.details {
+    @extend %details;
+}
+
+.code-caption {
+    font-style: italic;
+    font-size: 107%;
+    margin: 0;
+}
+
+.prettyprint {
+    font-size: 1rem;
+    overflow: auto;
+
+    &.source {
+        @extend %code-block;
+
+        width: inherit;
+    }
+
+    code {
+        @extend %code-block;
+
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    > code {
+        padding: 15px;
+    }
+
+    .linenums {
+        list-style-type: decimal;
+    }
+
+    &.linenums {
+        padding-left: 6em;
+        user-select: none;
+
+        code {
+            padding: 0 15px;
+            user-select: text;
+        }
+
+        &::before,
+        &::after {
+            display: block;
+            content: '';
+            height: 1em;
+        }
+
+        &::before,
+        &::after,
+        .line {
+            border-left: 1px solid $code-border-color;
+
+            &.selected {
+                border-left-color: $code-selected-border-color;
+            }
+        }
+    }
+}
+
+.params,
+.props {
+    @extend %table;
+
+    .type {
+        white-space: nowrap;
+    }
+
+    .param-type {
+        color: $param-type-text-color;
+        font-family: $code-font;
+        white-space: pre;
+
+        dt,
+        dd {
+            display: inline-block;
+        }
+    }
+
+    .attributes {
+        color: $param-attributes-text-color;
+    }
+}
+
+.disabled {
+    color: $disabled-text-color;
+}
+
+// navicon button
+.navicon-button {
+    display: none;
+    position: relative;
+    padding: 2.0625rem 1.5rem;
+    transition: 0.25s;
+    cursor: pointer;
+
+    user-select: none;
+}
+
+// navicon
+
+.navicon {
+    position: relative;
+    width: 2.5rem;
+    height: 0.3125rem;
+    transition: 0.3s;
+    border-radius: 2.5rem;
+    background-color: $overlay-text-color;
+
+    &::before,
+    &::after {
+        display: block;
+        position: absolute;
+        width: 2.5rem;
+        height: 0.3125rem;
+        transition: 0.25s;
+        border-radius: 1rem;
+        background-color: $overlay-text-color;
+        content: '';
+    }
+
+    &::before {
+        top: 0.625rem;
+
+        .nav-trigger:checked + label:not(.steps) & {
+            top: 0;
+        }
+    }
+
+    &::after {
+        top: -0.625rem;
+
+        .nav-trigger:checked + label:not(.steps) & {
+            top: 0;
+        }
+    }
+
+    .navicon-button:hover & {
+        transition: 0.25s;
+        opacity: 1;
+
+        &::before,
+        &::after {
+            transition: 0.25s;
+        }
+
+        &::before {
+            top: 0.825rem;
+        }
+
+        &::after {
+            top: -0.825rem;
+        }
+    }
+}
+
+// Minus
+
+.nav-trigger:checked + label {
+    transform: scale(0.75);
+
+    // × and +
+    &.plus,
+    &.x {
+        .navicon {
+            background: transparent;
+
+            &::before {
+                transform: rotate(-45deg);
+            }
+
+            &::after {
+                transform: rotate(45deg);
+            }
+        }
+    }
+
+    &.plus {
+        transform: scale(0.75) rotate(45deg);
+    }
+}
+
+.nav-trigger:checked ~ .nav {
+    left: 0;
+}
+
+.nav-trigger {
+    position: fixed;
+    top: 0;
+    clip: rect(0, 0, 0, 0);
+}
+
+.overlay {
+    @include fullscreen;
+    transition: opacity 0.2s linear, visibility 0s linear 0.2s;
+    background-color: $overlay-background-color;
+    opacity: 0;
+    visibility: hidden;
+    z-index: $z-index-overlay;
+
+    .nav-trigger:checked ~ & {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s linear, visibility 0s linear;
+    }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 680px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .nav {
+        @include fullscreen();
+        left: -$menu-width;
+        width: $menu-width;
+        padding: 0 10px;
+        transition: left 0.2s;
+        background: $nav-background-color;
+        z-index: $z-index-top;
+    }
+
+    .navicon-button {
+        display: inline-block;
+        position: fixed;
+        top: 1.5em;
+        right: 0;
+        z-index: $z-index-top;
+    }
+
+    .main-container {
+        margin-left: 0;
+    }
+}
+
+// Add a '#' to static members
+[data-type="member"] a::before {
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: -14px;
+    content: '#';
+}

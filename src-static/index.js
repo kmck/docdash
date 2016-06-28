@@ -1,4 +1,7 @@
-/*global document */
+// Webpack will extract these stylesheets into a separate file
+require('./styles/index.scss');
+
+// Add line numbers
 (function() {
     var source = document.getElementsByClassName('prettyprint source linenums');
     var i = 0;
@@ -17,8 +20,9 @@
             lineNumber++;
             lineId = 'line' + lineNumber;
             lines[i].id = lineId;
+            lines[i].classList.add('line');
             if (lineId === anchorHash) {
-                lines[i].className += ' selected';
+                lines[i].classList.add('selected');
             }
         }
     }

@@ -1,0 +1,124 @@
+// Palette
+$color-white: #ffffff;
+$color-black: #000000;
+$color-tuatura: #444444;
+$color-dank-smoke: #9da6af;
+$color-likable-red: #d95e40;
+$color-cheezbort: #f2992e;
+$color-always-sunny: #f7dd38;
+$color-reblog-green: #56bc8a;
+$color-neat-blue: #529ecc;
+$color-purple-rain: #a77dc2;
+$color-gloomy-cloud: #748089;
+
+$color-just-vaped: mix($color-tuatura, $color-white, 13%);
+
+// Colors
+$background-color: $color-white;
+$text-color: $color-tuatura;
+$link-color: $color-reblog-green;
+$link-active-color: $color-purple-rain;
+$link-hover-color: $link-color;
+$border-color: $color-just-vaped;
+$disabled-text-color: rgba($text-color, 0.5);
+$important-text-color: $color-likable-red;
+$ancestor-text-color: rgba($text-color, 0.8);
+
+$header-text-color: $color-neat-blue;
+$footer-text-color: inherit;
+
+$method-container-border-color: $border-color;
+$method-background-color: $color-neat-blue;
+$method-text-color: $color-white;
+$method-signature-text-color: rgba($color-white, 0.8);
+$method-signature-type-text-color: rgba($color-white, 0.7);
+$method-signature-return-text-color: rgba($color-white, 0.8);
+
+$table-border-color: $border-color;
+$table-background-color: $background-color;
+$table-head-background-color: transparent;
+$table-row-background-color: transparent;
+$table-row-alt-background-color: transparent;
+
+$param-type-text-color: $color-reblog-green;
+$param-attributes-text-color: $color-dank-smoke;
+
+$nav-background-color: $background-color;
+$nav-header-color: $text-color;
+$nav-subheader-color: $color-neat-blue;
+$nav-subheader-active-color: $nav-subheader-color;
+$nav-subheader-hover-color: $nav-subheader-color;
+$nav-text-color: $color-dank-smoke;
+$nav-active-color: $color-neat-blue;
+$nav-hover-color: $color-neat-blue;
+$nav-border-color: $border-color;
+
+$menu-text-color: $text-color;
+$overlay-background-color: rgba($background-color, 0.5);
+$overlay-text-color: $color-neat-blue;
+
+$code-background-color: $color-just-vaped;
+$code-text-color: inherit;
+$code-block-background-color: mix($background-color, $color-just-vaped, 69%);
+$code-block-text-color: inherit;
+$code-border-color: $border-color;
+$code-selected-border-color: $color-reblog-green;
+
+// Prettify
+$prettify-plaintext-color: $color-tuatura;
+$prettify-string-color: $color-reblog-green;
+$prettify-keyword-color: $color-likable-red;
+$prettify-comment-color: $color-gloomy-cloud;
+$prettify-type-color: $color-neat-blue;
+$prettify-literal-color: $color-cheezbort;
+$prettify-punctuation-color: $color-tuatura;
+$prettify-lisp-open-color: $color-tuatura;
+$prettify-lisp-close-color: $color-tuatura;
+$prettify-tag-color: $color-purple-rain;
+$prettify-attribute-name-color: $color-dank-smoke;
+$prettify-attribute-value-color: $color-reblog-green;
+$prettify-declaration-color: $color-neat-blue;
+$prettify-variable-color: $color-gloomy-cloud;
+$prettify-function-color: $color-cheezbort;
+
+// Fonts
+$webfont-import: 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,300|Anonymous+Pro';
+
+$body-font: 'Open Sans', sans-serif;
+$header-font: $body-font;
+$navigation-font: $body-font;
+$navigation-item-font: $body-font;
+$code-font: 'Anonymous Pro', monospace;
+
+$font-size: 14pt;
+$font-weight: 300;
+
+$code-font-size: 1rem;
+$code-font-weight: 400;
+
+$header-font-size: 3.75rem;
+$header-font-weight: 300;
+
+$subheader-font-size: 2.25rem;
+$subheader-font-weight: 300;
+
+$subsubheader-font-weight: 400;
+
+$nav-font-size: 0.9rem;
+$nav-font-weight: 400;
+
+// Dimensions
+$min-width: 360px;
+$menu-width: 250px;
+$content-padding: 1rem;
+
+// Z-indexing
+$z-index-hidden: -1;
+$z-index-normal: 1;
+$z-index-overlay: 2;
+$z-index-top: 3;
+
+// Flags
+$global-antialias: true;
+$custom-underline: true;
+$show-footer: false;
