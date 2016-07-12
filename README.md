@@ -82,6 +82,8 @@ Hotdoc supports the following options:
         "static": [false|true],  // Display the static members inside the navbar
         "sort": [false|true],    // Sort the methods in the navbar
         "home": "Home",          // Text that appears on the "Home" link
+        // if set, the corner will link to the GitHub project
+        "github": "http://github.com/kmck/hotdoc",
         // custom variables are added under the default variables and mixins,
         // but before any style declarations
         "customVariables": "path/to/your/variables.scss",

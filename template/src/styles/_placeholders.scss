@@ -77,8 +77,10 @@
 
 %header {
     color: $header-text-color;
+    font-family: $header-font;
     font-size: $header-font-size;
     font-weight: $header-font-weight;
+    line-height: $header-line-height;
 }
 
 %method-name {
@@ -185,6 +187,7 @@
 
 %content-text {
     @include semantic-base;
+    @include nested-lists($background-color, 0, 2em, 0, 2em);
 
     @if $custom-underline {
         a {
@@ -196,6 +199,10 @@
                 color: $link-active-color;
             }
 
+            .readme &[href^="https://travis-ci.org/"] {
+                background-image: none;
+                padding-bottom: 0;
+            }
         }
     }
 
@@ -215,9 +222,10 @@
     h5,
     h6,
     p {
-        padding: 0;
         margin-top: 1rem;
         margin-bottom: 1rem;
+        padding-top: 0;
+        padding-bottom: 0;
 
         &:first-child {
             margin-top: 0;
@@ -228,19 +236,42 @@
         }
     }
 
+    div,
+    table,
+    pre,
+    blockquote,
+    figure,
+    hr,
+    dl,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     h1 {
+        font-family: $header-font;
         font-size: $header-font-size;
         font-weight: $header-font-weight;
+        line-height: $header-line-height;
     }
 
     h2 {
+        font-family: $subheader-font;
         font-size: $subheader-font-size;
         font-weight: $subheader-font-weight;
+        line-height: $subheader-line-height;
     }
 
     h3 {
         font-size: 1.5rem;
         font-weight: $subsubheader-font-weight;
+        line-height: $subsubheader-line-height;
     }
 
     h4 {
@@ -263,6 +294,11 @@
     kbd,
     samp {
         @extend %code;
+    }
+
+    hr {
+        border: 0;
+        border-bottom: 1px solid $border-color;
     }
 
 }

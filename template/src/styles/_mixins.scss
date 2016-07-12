@@ -64,6 +64,87 @@
 }
 
 //
+// Includes the necessary markup to support nested lists, including the
+// background color to hide the extra bullet from "properly" nested lists that
+// contain a list container element inside a list item.
+//
+
+@mixin nested-lists(
+    $background-color: transparent,
+    $offset-ordered-list-bullet: 2px,
+    $indent-ordered-list: 38px,
+    $offset-unordered-list-bullet: 5px,
+    $indent-unordered-list: 35px
+) {
+    ol {
+        padding-left: $indent-ordered-list;
+
+        li {
+            list-style-type: decimal;
+            padding-left: $offset-ordered-list-bullet;
+        }
+    }
+
+    ul {
+        padding-left: $indent-unordered-list;
+
+        li {
+            list-style-type: disc;
+            padding-left: $offset-unordered-list-bullet;
+        }
+
+        ul {
+            li {
+                list-style-type: circle;
+            }
+        }
+
+        ol {
+            li {
+                list-style-type: decimal;
+            }
+        }
+    }
+
+    ol,
+    ul {
+        ol,
+        ul {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        @if ($background-color != transparent) {
+            // "Properly" nested lists get stuck with the bullet from an `<li>`
+            // on the outside. Yes, this is insane, but it looks more correct.
+            li > ol,
+            li > ul {
+                position: relative;
+
+                &::before {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    height: 100%;
+                    background-color: $background-color;
+                    content: '';
+                }
+            }
+        }
+
+        li > ol::before {
+            left: -$indent-ordered-list;
+            width: $indent-ordered-list;
+        }
+
+        li > ul::before {
+            left: -$indent-unordered-list;
+            width: $indent-unordered-list;
+        }
+    }
+}
+
+//
 // Pin an element to all corners
 //
 

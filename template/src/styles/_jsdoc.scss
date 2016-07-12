@@ -20,7 +20,7 @@ body {
     color: $text-color;
     font-family: $body-font;
     font-size: $font-size;
-    line-height: 1.6;
+    line-height: $line-height;
 
     @if $global-antialias {
         -webkit-font-smoothing: antialiased;
@@ -374,7 +374,7 @@ footer {
     }
 }
 
-@media only screen and (min-width: 320px) and (max-width: 680px) {
+@media only screen and (min-width: 320px) and (max-width: $mobile-width) {
     body {
         overflow-x: hidden;
     }

@@ -222,7 +222,7 @@ function generate(type, title, docs, filename, resolveLinks) {
     var docData = {
         type: type,
         title: title,
-        docs: docs
+        docs: docs,
     };
 
     var outpath = path.join(outdir, filename),
@@ -715,7 +715,7 @@ function publish(taffyData, opts, tutorials) {
             title: title,
             header: tutorial.title,
             content: tutorial.parse(),
-            children: tutorial.children
+            children: tutorial.children,
         };
 
         var tutorialPath = path.join(outdir, filename);

@@ -12,3 +12,5 @@ logs
 *.log
 jspm_packages
 .npm
+template/static/scripts
+template/static/styles

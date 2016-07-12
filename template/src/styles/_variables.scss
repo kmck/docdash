@@ -64,6 +64,9 @@ $code-block-text-color: inherit;
 $code-border-color: $border-color;
 $code-selected-border-color: $color-reblog-green;
 
+$github-corner-background-color: $header-text-color;
+$github-corner-foreground-color: $background-color;
+
 // Prettify
 $prettify-plaintext-color: $color-tuatura;
 $prettify-string-color: $color-reblog-green;
@@ -92,17 +95,21 @@ $code-font: 'Anonymous Pro', monospace;
 
 $font-size: 14pt;
 $font-weight: 300;
+$line-height: 1.6;
 
 $code-font-size: 1rem;
 $code-font-weight: 400;
 
 $header-font-size: 3.75rem;
 $header-font-weight: 300;
+$header-line-height: 1.12;
 
 $subheader-font-size: 2.25rem;
 $subheader-font-weight: 300;
+$subheader-line-height: 1.12;
 
 $subsubheader-font-weight: 400;
+$subsubheader-line-height: 1.12;
 
 $nav-font-size: 0.9rem;
 $nav-font-weight: 400;
@@ -110,6 +117,7 @@ $nav-font-weight: 400;
 // Dimensions
 $min-width: 360px;
 $menu-width: 250px;
+$mobile-width: 680px;
 $content-padding: 1rem;
 
 // Z-indexing

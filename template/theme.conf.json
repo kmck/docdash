@@ -1,5 +1,8 @@
 {
     "static": true,
     "sort": false,
-    "home": "Home"
+    "home": "Home",
+    "github": "",
+    "customVariables": "",
+    "customOverrides": ""
 }
