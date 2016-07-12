@@ -1,6 +1,3 @@
-// Webpack will extract these stylesheets into a separate file
-require('./styles/index.scss');
-
 // Add line numbers
 (function() {
     var source = document.getElementsByClassName('prettyprint source linenums');

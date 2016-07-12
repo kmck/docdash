@@ -1,8 +1,8 @@
 {
   "name": "hotdoc",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "A SASSier responsive documentation template theme for JSDoc 3 based on docdash",
-  "main": "publish.js",
+  "main": "template/publish.js",
   "scripts": {
     "test": "jsdoc -c fixtures/fixtures.conf.json",
     "sync": "browser-sync start -s ../fixtures-doc -f ../fixtures-doc --reload-delay 1000 --no-ui --no-notify",
@@ -13,13 +13,15 @@
     "url": "https://github.com/kmck/hotdoc.git"
   },
   "dependencies": {
-    "autoprefixer": "^6.3.6",
+    "autoprefixer": "^6.3.7",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "lodash": "^4.13.1",
     "node-sass": "^3.8.0",
     "postcss-loader": "^0.9.1",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
+    "text-transform-loader": "^1.1.1",
     "webpack": "^1.13.1"
   },
   "devDependencies": {

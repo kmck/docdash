@@ -1,4 +1,3 @@
-/*global env: true */
 'use strict';
 
 var doop = require('jsdoc/util/doop');
@@ -16,11 +15,25 @@ var resolveAuthorLinks = helper.resolveAuthorLinks;
 var scopeToPunc = helper.scopeToPunc;
 var hasOwnProp = Object.prototype.hasOwnProperty;
 
+var webpack = require('webpack');
+var extend = require('lodash/extend');
+var set = require('lodash/set');
+var get = require('lodash/get');
+
 var data;
 var view;
 
 var outdir = path.normalize(env.opts.destination);
 
+// JSDoc Configuration
+var jsdocConfig = env && env.conf || {};
+var templatesConfig = jsdocConfig.templates = jsdocConfig.templates || {};
+var defaultConfig = templatesConfig.default || templatesConfig.default || {}
+
+// hotdoc Configuration
+var themeConfig = extend({}, require('./theme.conf.json'), jsdocConfig.hotdoc || jsdocConfig.docdash);
+
+// Utils
 function find(spec) {
     return helper.find(data, spec);
 }
@@ -294,7 +307,6 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
         items.forEach(function(item) {
             var methods = find({kind:'function', memberof: item.longname});
             var members = find({kind:'member', memberof: item.longname});
-            var themeConfig = env && env.conf && env.conf.hotdoc || env.conf.docdash || {};
 
             if ( !hasOwnProp.call(item, 'longname') ) {
                 itemsNav += '<li>' + linktoFn('', item.name);
@@ -365,7 +377,7 @@ function linktoExternal(longName, name) {
  */
 
 function buildNav(members) {
-    var nav = '<h2 class="home-link"><a href="index.html">Home</a></h2>';
+    var nav = '<h2 class="home-link"><a href="index.html">' + themeConfig.home + '</a></h2>';
     var seen = {};
     var seenTutorials = {};
 
@@ -401,16 +413,94 @@ function buildNav(members) {
 }
 
 /**
-    @param {TAFFY} taffyData See <http://taffydb.com/>.
-    @param {object} opts
-    @param {Tutorial} tutorials
+ * Run Webpack build and copy static files
+ *
+ * @param {Function} callback - invoked if the build completes successfully
  */
-exports.publish = function(taffyData, opts, tutorials) {
-    var themeConfig = env && env.conf && env.conf.hotdoc || env.conf.docdash || {};
-    data = taffyData;
+function runWebpackBuild(callback) {
+    console.log('Running Webpack...');
 
-    var conf = env.conf.templates || {};
-    conf.default = conf.default || {};
+    var webpackConfig = require('./webpack.config.js');
+
+    // Custom SASS imports
+    var sassData = get(webpackConfig, 'sassLoader.data', '');
+    var customVariables = '';
+    var customOverrides = '';
+    if (themeConfig.customVariables) {
+        customVariables = fs.readFileSync(path.normalize(themeConfig.customVariables)).toString();
+    }
+    if (themeConfig.customOverrides) {
+        customOverrides = fs.readFileSync(path.normalize(themeConfig.customOverrides)).toString();
+    }
+    set(webpackConfig, 'textTransformLoader.transformText', function(content, params) {
+        content = content
+            .replace(/\/\/ HOTDOC CUSTOM VARIABLES/g, customVariables || '')
+            .replace(/\/\/ HOTDOC CUSTOM OVERRIDES/g, customOverrides || '');
+        return content;
+    });
+
+    // Run the Webpack build
+    webpack(webpackConfig, function(err) {
+        if (err) {
+            throw new Error(err);
+        }
+
+        if (callback) {
+            callback();
+        }
+    });
+}
+
+/**
+ * Copies static files to the output directory
+ *
+ * @param {String} templatePath - root template path
+ */
+function publishStaticFiles(templatePath) {
+    console.log('Copying static files...');
+
+    // copy the template's static files to outdir
+    var fromDir = path.join(templatePath, 'static');
+    var staticFiles = fs.ls(fromDir, 3);
+
+    staticFiles.forEach(function(fileName) {
+        var toDir = fs.toDir( fileName.replace(fromDir, outdir) );
+        fs.mkPath(toDir);
+        fs.copyFileSync(fileName, toDir);
+    });
+
+    // copy user-specified static files to outdir
+    var staticFilePaths;
+    var staticFileFilter;
+    var staticFileScanner;
+    if (defaultConfig.staticFiles) {
+        // The canonical property name is `include`. We accept `paths` for backwards compatibility
+        // with a bug in JSDoc 3.2.x.
+        staticFilePaths = defaultConfig.staticFiles.include || defaultConfig.staticFiles.paths || [];
+        staticFileFilter = new (require('jsdoc/src/filter')).Filter(defaultConfig.staticFiles);
+        staticFileScanner = new (require('jsdoc/src/scanner')).Scanner();
+
+        staticFilePaths.forEach(function(filePath) {
+            var extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
+
+            extraStaticFiles.forEach(function(fileName) {
+                var sourcePath = fs.toDir(filePath);
+                var toDir = fs.toDir( fileName.replace(sourcePath, outdir) );
+                fs.mkPath(toDir);
+                fs.copyFileSync(fileName, toDir);
+            });
+        });
+    }
+}
+
+/**
+ * @param {TAFFY} taffyData See <http://taffydb.com/>.
+ * @param {object} opts
+ * @param {Tutorial} tutorials
+ */
+function publish(taffyData, opts, tutorials) {
+    // Save data globally
+    data = taffyData;
 
     var templatePath = path.normalize(opts.template);
     view = new template.Template( path.join(templatePath, 'tmpl') );
@@ -424,9 +514,11 @@ exports.publish = function(taffyData, opts, tutorials) {
     helper.registerLink('global', globalUrl);
 
     // set up templating
-    view.layout = conf.default.layoutFile ?
-        path.getResourcePath(path.dirname(conf.default.layoutFile),
-            path.basename(conf.default.layoutFile) ) :
+    view.layout = defaultConfig.layoutFile ?
+        path.getResourcePath(
+            path.dirname(defaultConfig.layoutFile),
+            path.basename(defaultConfig.layoutFile)
+        ) :
         'layout.tmpl';
 
     // set up tutorials for helper
@@ -484,40 +576,10 @@ exports.publish = function(taffyData, opts, tutorials) {
     }
     fs.mkPath(outdir);
 
-    // copy the template's static files to outdir
-    var fromDir = path.join(templatePath, 'static');
-    var staticFiles = fs.ls(fromDir, 3);
-
-    staticFiles.forEach(function(fileName) {
-        var toDir = fs.toDir( fileName.replace(fromDir, outdir) );
-        fs.mkPath(toDir);
-        fs.copyFileSync(fileName, toDir);
+    // Run Webpack, then publish static files
+    runWebpackBuild(function() {
+        publishStaticFiles(templatePath);
     });
-
-    // copy user-specified static files to outdir
-    var staticFilePaths;
-    var staticFileFilter;
-    var staticFileScanner;
-    if (conf.default.staticFiles) {
-        // The canonical property name is `include`. We accept `paths` for backwards compatibility
-        // with a bug in JSDoc 3.2.x.
-        staticFilePaths = conf.default.staticFiles.include ||
-            conf.default.staticFiles.paths ||
-            [];
-        staticFileFilter = new (require('jsdoc/src/filter')).Filter(conf.default.staticFiles);
-        staticFileScanner = new (require('jsdoc/src/scanner')).Scanner();
-
-        staticFilePaths.forEach(function(filePath) {
-            var extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
-
-            extraStaticFiles.forEach(function(fileName) {
-                var sourcePath = fs.toDir(filePath);
-                var toDir = fs.toDir( fileName.replace(sourcePath, outdir) );
-                fs.mkPath(toDir);
-                fs.copyFileSync(fileName, toDir);
-            });
-        });
-    }
 
     if (sourceFilePaths.length) {
         sourceFiles = shortenPaths( sourceFiles, path.commonPrefix(sourceFilePaths) );
@@ -574,9 +636,7 @@ exports.publish = function(taffyData, opts, tutorials) {
     members.tutorials = tutorials.children;
 
     // output pretty-printed source files by default
-    var outputSourceFiles = conf.default && conf.default.outputSourceFiles !== false
-        ? true
-        : false;
+    var outputSourceFiles = (defaultConfig.outputSourceFiles !== false);
 
     // add template helpers
     view.find = find;
@@ -675,4 +735,6 @@ exports.publish = function(taffyData, opts, tutorials) {
     }
 
     saveChildren(tutorials);
-};
+}
+
+exports.publish = publish;

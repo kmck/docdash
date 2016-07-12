@@ -19,7 +19,7 @@ I really liked docdash, but wanted to customize it. When I looked at the CSS, I 
 
 In your thing
 
-    $ jsdoc entry-file.js -t path/to/hotdoc
+    $ jsdoc entry-file.js -t path/to/hotdoc/template
 
 ## Usage (npm)
 
@@ -37,11 +37,12 @@ In your `jsdoc.json` file, add a template option.
 
 ```json
 "opts": {
-  "template": "node_modules/hotdoc"
+  "template": "node_modules/hotdoc/template"
 }
 ```
 
 ## Sample `jsdoc.json`
+
 See the config file for the [fixtures](fixtures/fixtures.conf.json) or the sample below.
 
 ```json
@@ -79,12 +80,20 @@ Hotdoc supports the following options:
 {
     "hotdoc": {
         "static": [false|true],  // Display the static members inside the navbar
-        "sort": [false|true]     // Sort the methods in the navbar
+        "sort": [false|true],    // Sort the methods in the navbar
+        "home": "Home",          // Text that appears on the "Home" link
+        // custom variables are added under the default variables and mixins,
+        // but before any style declarations
+        "customVariables": "path/to/your/variables.scss",
+        // custom overrides are added under the default styles
+        "customOverrides": "path/to/your/overrides.scss"
     }
 }
 ```
 
 Place them anywhere inside your `jsdoc.json` file.
+
+**If you just want to customize the colors and fonts**, set the `customVariables` option to the path to your custom `_variables.scss` file. Refer to the default [`_variables.scss`](template/src/styles/_variables.scss) for a list of variables you can change.
 
 ## Thanks
 
