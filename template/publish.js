@@ -440,9 +440,30 @@ function runWebpackBuild(callback) {
     });
 
     // Run the Webpack build
-    webpack(webpackConfig, function(err) {
+    webpack(webpackConfig, function(err, stats) {
         if (err) {
             throw new Error(err);
+        }
+
+        if (stats.hasErrors) {
+            var jsonStats = stats.toJson();
+
+            var jsonStats = stats.toJson();
+            if (jsonStats.errors.length || jsonStats.warnings.length) {
+                console.log('Webpack encountered problems!');
+            }
+
+            if (jsonStats.errors.length > 0) {
+                jsonStats.errors.forEach(function(msg) {
+                    console.log('    ERROR:  ' + msg);
+                });
+            }
+
+            if (jsonStats.errors.length > 0) {
+                jsonStats.errors.forEach(function(msg) {
+                    console.log('    WARNING: ' + msg);
+                });
+            }
         }
 
         if (callback) {

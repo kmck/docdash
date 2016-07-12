@@ -20,7 +20,7 @@ module.exports = {
         }],
     },
     sassLoader: {
-        includePaths: [path.resolve(__dirname, './src/styles')]
+        includePaths: [path.resolve(__dirname, './src/styles')],
     },
     postcss: [
         autoprefixer({
@@ -38,6 +38,6 @@ module.exports = {
                 warnings: false,
                 dead_code: true,
             },
-        })
+        }),
     ],
 };
