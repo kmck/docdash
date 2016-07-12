@@ -1,6 +1,6 @@
 {
   "name": "hotdoc",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "A SASSier responsive documentation template theme for JSDoc 3 based on docdash",
   "main": "template/publish.js",
   "scripts": {
