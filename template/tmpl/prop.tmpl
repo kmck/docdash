@@ -1,0 +1,60 @@
+<?js
+    var self = this;
+    var subprops = prop.subparams || prop.subprops;
+?>
+<tr class="prop">
+    <?js if (hasName) { ?>
+        <td class="name">
+            <?js if (depth) { ?>
+                <span class="prefix"><?js= new Array(depth).join('  ') + '&#8627;' ?></span>
+            <?js } ?>
+            <code><?js= prop.name ?></code>
+        </td>
+    <?js } ?>
+
+    <td class="type">
+        <?js if (prop.type && prop.type.names) { ?>
+            <?js= self.partial('type.tmpl', prop.type.names) ?>
+        <?js } ?>
+    </td>
+
+    <?js if (hasAttributes) { ?>
+        <td class="attributes">
+            <?js if (prop.optional) { ?>
+                <div class="attribute optional">optional</div>
+            <?js } ?>
+
+            <?js if (prop.nullable) { ?>
+                <div class="attribute nullable">nullable</div>
+            <?js } ?>
+
+            <?js if (prop.variable) { ?>
+                <div class="attribute repeatable">repeatable</div>
+            <?js } ?>
+        </td>
+    <?js } ?>
+
+    <?js if (hasDefault) { ?>
+        <td class="default">
+            <?js if (typeof prop.defaultvalue !== 'undefined') { ?>
+                <code><?js= self.htmlsafe(prop.defaultvalue) ?></code>
+            <?js } ?>
+        </td>
+    <?js } ?>
+
+    <td class="description last"><?js= prop.description ?></td>
+
+</tr>
+
+<?js subprops && subprops.forEach(function(prop) { ?>
+    <?js if (!prop) { return; } ?>
+    <?js=
+        self.partial('prop.tmpl', {
+            hasName: hasName,
+            hasAttributes: hasAttributes,
+            hasDefault: hasDefault,
+            depth: depth + 1, // used for nested properties
+            prop: prop
+        })
+    ?>
+<?js }); ?>

@@ -1,4 +1,5 @@
 <?js
+    var self = this;
     var data = obj;
     var props = data.subprops || data.properties;
 
@@ -43,17 +44,17 @@
     <thead>
     <tr>
         <?js if (props.hasName) {?>
-        <th>Name</th>
+            <th>Name</th>
         <?js } ?>
 
         <th>Type</th>
 
         <?js if (props.hasAttributes) {?>
-        <th>Attributes</th>
+            <th>Attributes</th>
         <?js } ?>
 
         <?js if (props.hasDefault) {?>
-        <th>Default</th>
+            <th>Default</th>
         <?js } ?>
 
         <th class="last">Description</th>
@@ -61,48 +62,17 @@
     </thead>
 
     <tbody>
-    <?js
-        var self = this;
-        props.forEach(function(prop) {
-            if (!prop) { return; }
-    ?>
-
-        <tr>
-            <?js if (props.hasName) {?>
-                <td class="name"><code><?js= prop.name ?></code></td>
-            <?js } ?>
-
-            <td class="type">
-            <?js if (prop.type && prop.type.names) {?>
-                <?js= self.partial('type.tmpl', prop.type.names) ?>
-            <?js } ?>
-            </td>
-
-            <?js if (props.hasAttributes) {?>
-                <td class="attributes">
-                <?js if (prop.optional) { ?>
-                    &lt;optional><br>
-                <?js } ?>
-
-                <?js if (prop.nullable) { ?>
-                    &lt;nullable><br>
-                <?js } ?>
-                </td>
-            <?js } ?>
-
-            <?js if (props.hasDefault) {?>
-                <td class="default">
-                <?js if (typeof prop.defaultvalue !== 'undefined') { ?>
-                    <code><?js= self.htmlsafe(prop.defaultvalue) ?></code>
-                <?js } ?>
-                </td>
-            <?js } ?>
-
-            <td class="description last"><?js= prop.description ?><?js if (prop.subprops) { ?>
-                <h6>Properties</h6><?js= self.partial('properties.tmpl', prop) ?>
-            <?js } ?></td>
-        </tr>
-
-    <?js }); ?>
+        <?js props.forEach(function(prop) { ?>
+            <?js if (!prop) { return; } ?>
+            <?js=
+                self.partial('prop.tmpl', {
+                    hasName: params.hasName,
+                    hasAttributes: params.hasAttributes,
+                    hasDefault: params.hasDefault,
+                    depth: 0, // used for nested params
+                    prop: prop
+                })
+            ?>
+        <?js }); ?>
     </tbody>
 </table>

@@ -231,6 +231,13 @@ footer {
 .props {
     @extend %table;
 
+    .name {
+        .prefix {
+            font-family: $code-font;
+            white-space: pre;
+        }
+    }
+
     .type {
         white-space: nowrap;
     }
@@ -248,6 +255,30 @@ footer {
 
     .attributes {
         color: $param-attributes-text-color;
+
+        .attribute {
+            &::before {
+                content: '<';
+            }
+
+            &::after {
+                content: '>';
+            }
+        }
+    }
+
+    .subparams,
+    .subprops {
+        border-top-width: 0;
+
+        > h6 {
+            margin-bottom: 0.5rem;
+        }
+
+        > .params,
+        > .props {
+            margin-top: 0.5rem;
+        }
     }
 }
 
