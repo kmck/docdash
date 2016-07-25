@@ -27,7 +27,7 @@ var filter = arr.filter;
 // This can be removed when jsdoc has publish-time sytax highlighter support
 (function() {
     var hljs = require('highlight.js');
-    forEach.call(document.querySelectorAll('.source.prettyprint') || arr, function(source) {
+    forEach.call(document.querySelectorAll('.prettyprint') || arr, function(source) {
         var code = source.querySelector('code');
         if (code) {
             var langClassNames = filter.call(source.classList, function(className) {
