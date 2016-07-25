@@ -1,6 +1,8 @@
 {
     "static": true,
     "sort": false,
+    "collapsible": true,
+    "startExpanded": true,
     "home": "Home",
     "github": "",
     "customVariables": "",

@@ -1,4 +1,8 @@
-// Highlight slected line based on anchor
+var arr = [];
+var forEach = arr.forEach;
+var filter = arr.filter;
+
+// Highlight selected line based on anchor
 (function() {
     var anchorHash = document.location.hash.substring(1);
     if (anchorHash && anchorHash.match(/^line\d+$/)) {
@@ -9,14 +13,20 @@
     }
 })();
 
+// Close other nav items
+(function() {
+    forEach.call(document.querySelectorAll('.nav details'), function(details) {
+        var anchor = details.querySelector('a');
+        if (anchor && anchor.pathname === document.location.pathname) {
+            details.open = true;
+        }
+    });
+})();
+
 // Use highlight.js on prettify targets
 // This can be removed when jsdoc has publish-time sytax highlighter support
 (function() {
     var hljs = require('highlight.js');
-    var arr = [];
-    var forEach = arr.forEach;
-    var filter = arr.filter;
-
     forEach.call(document.querySelectorAll('.source.prettyprint') || arr, function(source) {
         var code = source.querySelector('code');
         if (code) {

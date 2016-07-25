@@ -32,7 +32,7 @@
         a {
             font-family: $navigation-item-font;
             padding: 0;
-            display: block;
+            display: inline-block;
         }
 
         ul {
@@ -61,6 +61,7 @@
     > ul {
         padding: 0 10px;
 
+        summary > a,
         > li > a {
             color: $nav-subheader-color;
 
@@ -71,6 +72,25 @@
             &:hover {
                 color: $nav-subheader-hover-color;
             }
+        }
+    }
+
+    summary {
+        &:focus {
+            outline: none;
+        }
+
+        &::-webkit-details-marker {
+            display: inline;
+            margin: 0 0.5rem 0 0;
+            color: $nav-bullet-color;
+            font-size: 0.8rem;
+            content: '\25B6';
+            cursor: pointer;
+        }
+
+        &[open]::-webkit-details-marker {
+            content: '\25BC';
         }
     }
 }

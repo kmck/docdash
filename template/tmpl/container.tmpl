@@ -6,6 +6,11 @@
 ?>
 
 <?js
+    // Title
+    if (typeof title !== 'undefined') {
+        doc.title = title;
+    }
+
     // Syntax highlighting
     if (typeof highlighter !== 'undefined') {
         doc.highlighter = highlighter;

@@ -1,11 +1,13 @@
 <?js
     var data = obj;
+    var extRegex = /^.*\.([^\.]+$)/;
+    var lang = typeof title === 'string' && title.match(extRegex) ? title.replace(extRegex, '$1') : false;
 ?>
     <section>
         <article>
             <pre class="source linenums"><code><?js=
                 typeof highlighter === 'function' ?
-                    highlighter(data.code, false, true, true) :
+                    highlighter(data.code, lang, true, true) :
                     data.code
             ?></code></pre>
         </article>

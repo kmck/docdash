@@ -65,7 +65,12 @@ function highlighter(code, lang, unescapeCode, lineNums) {
 
     if (hljs) {
         if (lang) {
-            highlightedCode = hljs.highlight(lang, highlightedCode).value;
+            try {
+                highlightedCode = hljs.highlight(lang, highlightedCode).value;
+            } catch(e) {
+                console.warn('Warning: Unknown language %s', lang);
+                highlightedCode = hljs.highlightAuto(highlightedCode).value;
+            }
         } else {
             highlightedCode = hljs.highlightAuto(highlightedCode).value;
         }
@@ -156,7 +161,7 @@ function htmlBreakSplitter(code) {
                         tagStack.pop();
                         currentTag = tagStack.length ? tagStack[tagStack.length - 1] : null;
                     } else {
-                        console.warn('Possibly tag mismatch? Saw %s but expected %s', matches[7], currentTag.name);
+                        console.warn('Warning: Possibly tag mismatch? Saw %s but expected %s', matches[7], currentTag.name);
                     }
                 }
                 output += matches[0];
@@ -448,12 +453,26 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
             var members = find({kind:'member', memberof: item.longname});
 
             if ( !hasOwnProp.call(item, 'longname') ) {
-                itemsNav += '<li>' + linktoFn('', item.name);
+                itemsNav += '<li>';
+                if (themeConfig.collapsible) {
+                    itemsNav += '<details' + (themeConfig.startExpanded ? ' open' : '') + '><summary>';
+                }
+                itemsNav += linktoFn('', item.name);
+                if (themeConfig.collapsible) {
+                    itemsNav += + '</summary></details>';
+                }
                 itemsNav += '</li>';
             } else if ( !hasOwnProp.call(itemsSeen, item.longname) ) {
-                itemsNav += '<li>' + linktoFn(item.longname, item.name.replace(/^module:/, ''));
+                itemsNav += '<li>';
+                if (themeConfig.collapsible) {
+                    itemsNav += '<details' + (themeConfig.startExpanded ? ' open' : '') + '><summary>';
+                }
+                itemsNav += linktoFn(item.longname, item.name.replace(/^module:/, ''));
+                if (themeConfig.collapsible) {
+                    itemsNav += '</summary>';
+                }
 
-                if (themeConfig.static && members.find(function (m) { return m.scope === 'static'; } )) {
+                if (themeConfig.static && members.find(function(m) { return m.scope === 'static'; } )) {
                     itemsNav += "<ul class='members'>";
 
                     members.forEach(function (member) {
@@ -478,6 +497,9 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
                     itemsNav += "</ul>";
                 }
 
+                if (themeConfig.collapsible) {
+                    itemsNav += '</details>';
+                }
                 itemsNav += '</li>';
                 itemsSeen[item.longname] = true;
             }

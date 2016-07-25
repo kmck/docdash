@@ -79,8 +79,10 @@ Hotdoc supports the following options:
 ```js
 {
     "hotdoc": {
-        "static": [false|true],  // Display the static members inside the navbar
-        "sort": [false|true],    // Sort the methods in the navbar
+        "static": [false|true],         // Display the static members inside the navbar
+        "sort": [false|true],           // Sort the methods in the navbar
+        "collapsible": [true|false],    // If set, categories will be collapsible
+        "startExpanded": [true|false],  // If not set, categories are collapsed by default
         "home": "Home",          // Text that appears on the "Home" link
         // if set, the corner will link to the GitHub project
         "github": "http://github.com/kmck/hotdoc",
