@@ -8,6 +8,7 @@ var path = require('jsdoc/path');
 var taffy = require('taffydb').taffy;
 var template = require('jsdoc/template');
 var util = require('util');
+var hljs = require('highlight.js');
 
 var htmlsafe = helper.htmlsafe;
 var linkto = helper.linkto;
@@ -19,6 +20,7 @@ var webpack = require('webpack');
 var extend = require('lodash/extend');
 var set = require('lodash/set');
 var get = require('lodash/get');
+var unescape = require('lodash/unescape');
 
 var data;
 var view;
@@ -33,7 +35,143 @@ var defaultConfig = templatesConfig.default || templatesConfig.default || {}
 // hotdoc Configuration
 var themeConfig = extend({}, require('./theme.conf.json'), jsdocConfig.hotdoc || jsdocConfig.docdash);
 
+// Self-closing HTML tag list (for highlighter line numbers)
+// See http://w3c.github.io/html/syntax.html#void-elements
+var selfClosingTags = [
+    'area',
+    'base',
+    'br',
+    'col',
+    'embed',
+    'hr',
+    'img',
+    'input',
+    'link',
+    'menuitem',
+    'meta',
+    'param',
+    'source',
+    'track',
+    'wbr',
+];
+
 // Utils
+function highlighter(code, lang, unescapeCode, lineNums) {
+    var highlightedCode = code;
+
+    if (unescapeCode) {
+        highlightedCode = unescape(highlightedCode);
+    }
+
+    if (hljs) {
+        if (lang) {
+            highlightedCode = hljs.highlight(lang, highlightedCode).value;
+        } else {
+            highlightedCode = hljs.highlightAuto(highlightedCode).value;
+        }
+    }
+
+    if (lineNums) {
+        return '<ol class="lines">' +
+            htmlBreakSplitter(highlightedCode)
+                .split('\n')
+                .map(function(line, i) {
+                    return '<li id="line' + (i + 1) + '" class="line">' + line + '</li>';
+                })
+                .join('') +
+            '</ol>';
+    } else {
+        return highlightedCode;
+    }
+}
+
+function htmlBreakSplitter(code) {
+    var regex = new RegExp('(' + [
+        '<([\\w-]+)', // HTML open tag start
+        '\s*[\\w-]+\\s*=\\s*(?:"[^"]*"|\'[^\']*\')', // HTML tag attribute
+        '(\/)?\s*>', // HTML open tag end
+        '</(\\w+)>', // HTML close tag
+        '\\n', // line break
+    ].join(')|(') + ')', 'gi');
+
+    var tagStack = [];
+    var currentTag;
+    var offset = 0;
+    var output = '';
+    var matches;
+    var i;
+    var codeChunk;
+    var tagName;
+    var insideTag = false;
+
+    while ((matches = regex.exec(code)) !== null) {
+        // Grab everything before this match
+        codeChunk = code.substring(offset, matches.index);
+
+        if (insideTag) {
+            // If we're inside a tag, we just want to capture everything to the current tag until
+            // we encounter the closing tag
+
+            if (!currentTag) {
+                throw new Error('Invalid HTML tag stack!');
+            }
+
+            currentTag.markup += codeChunk + matches[0];
+            if (matches[4]) {
+                // Once the tag is closed, we can output it
+                output += currentTag.markup;
+                // If it's a self-closed (or a self-closing tag), pop it off the stack
+                if (matches[5] || selfClosingTags.indexOf(currentTag.name) >= 0) {
+                    tagStack.pop();
+                    currentTag = null;
+                }
+                insideTag = false;
+            }
+        } else {
+            output += codeChunk;
+
+            if (matches[2]) {
+                // Starting an HTML tag
+                insideTag = true;
+                currentTag = {
+                    name: matches[2].toLowerCase(),
+                    markup: matches[1],
+                };
+                tagStack.push(currentTag);
+            } else if (matches[8]) {
+                // Hit a line break?
+                // Close everything for this line
+                for (i = tagStack.length - 1; i >= 0; i--) {
+                    output += '</' + tagStack[i].name + '>';
+                }
+                // Add the line break
+                output += matches[0];
+                // Reopen everything
+                for (i = 0; i < tagStack.length; i++) {
+                    output += tagStack[i].markup;
+                }
+            } else {
+                if (matches[7]) {
+                    if (currentTag && currentTag.name === matches[7].toLowerCase()) {
+                        tagStack.pop();
+                        currentTag = tagStack.length ? tagStack[tagStack.length - 1] : null;
+                    } else {
+                        console.warn('Possibly tag mismatch? Saw %s but expected %s', matches[7], currentTag.name);
+                    }
+                }
+                output += matches[0];
+            }
+        }
+
+        offset = matches.index + matches[0].length;
+    }
+
+    // Append any of the leftovers
+    output += code.substring(offset, code.length);
+
+    return output;
+}
+
 function find(spec) {
     return helper.find(data, spec);
 }
@@ -223,6 +361,7 @@ function generate(type, title, docs, filename, resolveLinks) {
         type: type,
         title: title,
         docs: docs,
+        highlighter: highlighter,
     };
 
     var outpath = path.join(outdir, filename),

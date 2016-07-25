@@ -6,6 +6,11 @@
 ?>
 
 <?js
+    // Syntax highlighting
+    if (typeof highlighter !== 'undefined') {
+        doc.highlighter = highlighter;
+    }
+
     // we only need to check this once
     if (typeof isGlobalPage === 'undefined') {
         isGlobalPage = (doc.kind === 'globalobj');

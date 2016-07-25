@@ -1,0 +1,246 @@
+//
+// Highlight.js Syntax Highlighting
+//
+// See http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html for details
+//
+
+
+//
+// General-purpose
+//
+
+.hljs-keyword {
+    color: $syntax-keyword;
+}
+
+// eg. constant, class, function
+.hljs-built_in {
+    color: $syntax-built-in;
+}
+
+.hljs-type {
+    color: $syntax-type;
+}
+
+// eg. true, false, null
+.hljs-literal {
+    color: $syntax-literal;
+}
+
+.hljs-number {
+    color: $syntax-number;
+}
+
+.hljs-regexp {
+    color: $syntax-regexp;
+}
+
+.hljs-string {
+    color: $syntax-string;
+}
+
+// parsed inside string
+.hljs-subst {
+    color: $syntax-subst;
+}
+
+.hljs-symbol {
+    color: $syntax-symbol;
+}
+
+.hljs-class {
+    color: $syntax-class;
+}
+
+.hljs-function {
+    color: $syntax-function;
+
+    .hljs-keyword {
+        color: $syntax-function-keyword;
+    }
+
+    .hljs-params {
+        color: $syntax-function-params;
+    }
+}
+
+.hljs-title {
+    color: $syntax-title;
+}
+
+.hljs-params {
+    color: $syntax-params;
+}
+
+
+//
+// Meta
+//
+
+.hljs-comment {
+    color: $syntax-comment;
+}
+
+.hljs-doctag {
+    color: $syntax-doctag;
+}
+
+.hljs-meta {
+    color: $syntax-meta;
+}
+
+.hljs-meta-keyword {
+    color: $syntax-meta-keyword;
+}
+
+.hljs-meta-string {
+    color: $syntax-meta-string;
+}
+
+
+//
+// Tags, attributes, configs
+//
+
+.hljs-section {
+    color: $syntax-section;
+}
+
+.hljs-tag {
+    color: $syntax-tag;
+
+    .hljs-name {
+        color: $syntax-tag-name;
+    }
+
+    .hljs-attr {
+        color: $syntax-tag-attr;
+    }
+
+    .hljs-string {
+        color: $syntax-tag-string;
+    }
+}
+
+.hljs-name {
+    color: $syntax-name;
+}
+
+.hljs-builtin-name {
+    color: $syntax-built-in-name;
+}
+
+// attribute name with no defined semantics, eg. key in JSON
+.hljs-attr {
+    color: $syntax-attr;
+}
+
+// eg. CSS properties
+.hljs-attribute {
+    color: $syntax-attribute;
+}
+
+.hljs-variable {
+    color: $syntax-variable;
+}
+
+
+//
+// Markup
+//
+
+.hljs-bullet {
+    color: $syntax-bullet;
+}
+
+.hljs-code {
+    color: $syntax-code;
+}
+
+.hljs-emphasis {
+    color: $syntax-emphasis;
+}
+
+.hljs-strong {
+    color: $syntax-strong;
+}
+
+.hljs-formula {
+    color: $syntax-formula;
+}
+
+.hljs-link {
+    color: $syntax-link;
+}
+
+.hljs-quote {
+    color: $syntax-quote;
+}
+
+
+//
+// CSS
+//
+
+// tag selector
+.hljs-selector-tag {
+    color: $syntax-selector-tag;
+}
+
+// #id selector
+.hljs-selector-id {
+    color: $syntax-selector-id;
+}
+
+// .class selector
+.hljs-selector-class {
+    color: $syntax-selector-class;
+}
+
+// [attr] selector
+.hljs-selector-attr {
+    color: $syntax-selector-attr;
+}
+
+// :pseudo selector
+.hljs-selector-pseudo {
+    color: $syntax-selector-pseudo;
+}
+
+
+//
+// Templates
+//
+
+.hljs-template-tag {
+    color: $syntax-template-tag;
+}
+
+.hljs-template-variable {
+    color: $syntax-template-variable;
+}
+
+
+//
+// diff
+//
+
+.hljs-addition {
+    color: $syntax-diff-addition;
+}
+
+.hljs-deletion {
+    color: $syntax-diff-deletion;
+}
+
+
+//
+// Language-specific-overrides
+//
+
+.lang-html,
+.lang-xml {
+    .hljs-tag {
+        color: $syntax-html-tag;
+    }
+}

@@ -67,22 +67,63 @@ $code-selected-border-color: $color-reblog-green;
 $github-corner-background-color: $header-text-color;
 $github-corner-foreground-color: $background-color;
 
-// Prettify
-$prettify-plaintext-color: $color-tuatura;
-$prettify-string-color: $color-reblog-green;
-$prettify-keyword-color: $color-likable-red;
-$prettify-comment-color: $color-gloomy-cloud;
-$prettify-type-color: $color-neat-blue;
-$prettify-literal-color: $color-cheezbort;
-$prettify-punctuation-color: $color-tuatura;
-$prettify-lisp-open-color: $color-tuatura;
-$prettify-lisp-close-color: $color-tuatura;
-$prettify-tag-color: $color-purple-rain;
-$prettify-attribute-name-color: $color-dank-smoke;
-$prettify-attribute-value-color: $color-reblog-green;
-$prettify-declaration-color: $color-neat-blue;
-$prettify-variable-color: $color-gloomy-cloud;
-$prettify-function-color: $color-cheezbort;
+// Syntax highlighting
+$syntax-default: $code-text-color;
+
+$syntax-keyword: $color-likable-red;
+$syntax-built-in: $color-reblog-green;
+$syntax-type: $color-neat-blue;
+$syntax-literal: $color-cheezbort;
+$syntax-number: $color-purple-rain;
+$syntax-regexp: $color-purple-rain;
+$syntax-string: $color-always-sunny;
+$syntax-subst: $color-likable-red;
+$syntax-symbol: $color-likable-red;
+$syntax-class: $color-reblog-green;
+$syntax-function: $syntax-default;
+$syntax-title: $color-reblog-green;
+$syntax-params: $color-cheezbort;
+
+$syntax-comment: $color-gloomy-cloud;
+$syntax-doctag: $color-purple-rain;
+$syntax-meta: $color-likable-red;
+$syntax-meta-keyword: $color-gloomy-cloud;
+$syntax-meta-string: $color-reblog-green;
+
+$syntax-section: $color-gloomy-cloud;
+$syntax-tag: $color-purple-rain;
+$syntax-name: $color-gloomy-cloud;
+$syntax-built-in-name: $color-gloomy-cloud;
+$syntax-attr: $color-dank-smoke;
+$syntax-attribute: $color-dank-smoke;
+$syntax-variable: $color-reblog-green;
+
+$syntax-bullet: $color-purple-rain;
+$syntax-code: $color-purple-rain;
+$syntax-emphasis: $color-cheezbort;
+$syntax-strong: $color-black;
+$syntax-formula: $color-neat-blue;
+$syntax-link: $color-reblog-green;
+$syntax-quote: $color-cheezbort;
+
+$syntax-selector-tag: $color-cheezbort;
+$syntax-selector-id: $color-cheezbort;
+$syntax-selector-class: $color-reblog-green;
+$syntax-selector-attr: $color-cheezbort;
+$syntax-selector-pseudo: $color-dank-smoke;
+
+$syntax-template-tag: $color-likable-red;
+$syntax-template-variable: $color-gloomy-cloud;
+
+$syntax-diff-addition: $color-reblog-green;
+$syntax-diff-deletion: $color-likable-red;
+
+$syntax-tag-name: $color-purple-rain;
+$syntax-tag-attr: $color-dank-smoke;
+$syntax-tag-string: $color-reblog-green;
+$syntax-html-tag: $color-gloomy-cloud;
+$syntax-function-keyword: $color-neat-blue;
+$syntax-function-params: $color-cheezbort;
 
 // Fonts
 $webfont-import: 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,300|Anonymous+Pro';

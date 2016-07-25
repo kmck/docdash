@@ -174,54 +174,54 @@ footer {
     margin: 0;
 }
 
-.prettyprint {
+.source {
+    display: block;
+    width: inherit;
     font-size: 1rem;
     overflow: auto;
 
-    &.source {
+    > code {
         @extend %code-block;
 
-        width: inherit;
-    }
-
-    code {
-        @extend %code-block;
-
+        padding: 1rem;
         white-space: pre-wrap;
         word-wrap: break-word;
     }
 
-    > code {
-        padding: 15px;
-    }
-
-    .linenums {
-        list-style-type: decimal;
+    .lines,
+    .line {
+        margin: 0;
+        padding: 0;
     }
 
     &.linenums {
-        padding-left: 6em;
         user-select: none;
 
-        code {
-            padding: 0 15px;
+        > code {
+            padding-top: 0;
+            padding-bottom: 0;
             user-select: text;
         }
 
-        &::before,
-        &::after {
-            display: block;
-            content: '';
-            height: 1em;
-        }
+        .lines {
+            list-style-type: decimal;
+            padding-left: 4em;
 
-        &::before,
-        &::after,
-        .line {
-            border-left: 1px solid $code-border-color;
+            &::before,
+            &::after {
+                display: block;
+                content: '\00a0';
+            }
 
-            &.selected {
-                border-left-color: $code-selected-border-color;
+            &::before,
+            &::after,
+            .line {
+                padding-left: 1em;
+                border-left: 1px solid $code-border-color;
+
+                &.selected {
+                    border-left-color: $code-selected-border-color;
+                }
             }
         }
     }
