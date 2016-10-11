@@ -66,10 +66,10 @@
             <?js if (!prop) { return; } ?>
             <?js=
                 self.partial('prop.tmpl', {
-                    hasName: params.hasName,
-                    hasAttributes: params.hasAttributes,
-                    hasDefault: params.hasDefault,
-                    depth: 0, // used for nested params
+                    hasName: props.hasName,
+                    hasAttributes: props.hasAttributes,
+                    hasDefault: props.hasDefault,
+                    depth: 0, // used for nested props
                     prop: prop
                 })
             ?>
